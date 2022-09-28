@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import TableRow from "./TableRow";
+import WeightTable from "./WeightTable";
 
 const firebaseConfig = {
   apiKey: "AIzaSyABOssmOXbt97PKwC1zEnnoZbfNgWW0Flo",
@@ -18,8 +19,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 function Homepage(props) {
-  const [kgModeOn, setKgModeOn] = useState(false);
-  const [lbsModeOn, setLbsModeOn] = useState(true);
+  const [metricModeOn, setMetricModeOn] = useState(false);
+  const [imperialModeOn, setImperialModeOn] = useState(true);
+
   const [genderInput, setGenderInput] = useState(props?.value ?? "");
   const [ageInput, setAgeInput] = useState(props?.value ?? 0);
   const [weightInput, setWeightInput] = useState(props?.value ?? 0);
@@ -33,34 +35,8 @@ function Homepage(props) {
     calories: caloriesInput,
     age: ageInput,
     height: heightInput,
-    activity: activityInput
-  };
-
-  // const gender = weightRef.value;
-  // console.log(gender)
-
-  const setWeightMode = (e) => {
-    if (e === "lbs") {
-      setKgModeOn(false);
-      setLbsModeOn(true);
-      console.log("pounds");
-    } else if (e === "kgs") {
-      setLbsModeOn(false);
-      setKgModeOn(true);
-      console.log("kilos");
-    }
-  };
-
-  const setHeightMode = (e) => {
-    if (e === "inches") {
-      setKgModeOn(false);
-      setLbsModeOn(true);
-      console.log("inches");
-    } else if (e === "meters") {
-      setLbsModeOn(false);
-      setKgModeOn(true);
-      console.log("meters");
-    }
+    activity: activityInput,
+    imperialMode: imperialModeOn
   };
 
   const storeStats = (e) => {
@@ -78,20 +54,30 @@ function Homepage(props) {
     }).then(() => {});
   };
 
-  // const tableInfo = (e) => {
-  //   const storedStats = collection(db, "weight-calculator");
-
-  //   getDocs(storedStats).then((snapshot) => {
-  //     snapshot.docs.forEach((document) => {
-  //       console.log(document.stats.age);
-  //       return <TableRow />;
-  //     });
-  //   });
-  // };
-
   return (
     <div>
       <h1>Weight Calculator</h1>
+
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            setMetricModeOn(false);
+            setImperialModeOn(true);
+          }}>
+          Imperial
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setImperialModeOn(false);
+            setMetricModeOn(true);
+          }}>
+          Metric
+        </button>
+      </div>
+
       <form>
         <input
           type={"radio"}
@@ -116,26 +102,37 @@ function Homepage(props) {
         <label htmlFor={"female"}>Female</label>
 
         <div className="row">
-          <label>What is your weight?</label>
-          <input
-            type={"text"}
-            name={"weight"}
-            id={"weight"}
-            onChange={(e) => {
-              setWeightInput(e.target.value);
-            }}
-          />
-
-          <label htmlFor="weightUnits">Units:</label>
-          <select
-            name="units"
-            id="weightUnits"
-            onChange={(e) => {
-              setWeightMode(e.target.value);
-            }}>
-            <option value={"lbs"}>lbs</option>
-            <option value={"kgs"}>kgs</option>
-          </select>
+          <label>
+            What is your weight
+            {imperialModeOn ? (
+              <span>(in pounds)?</span>
+            ) : metricModeOn ? (
+              <span>(in kilograms)?</span>
+            ) : null}
+          </label>
+          {imperialModeOn ? (
+            <input
+              type={"number"}
+              name={"weight"}
+              id={"weight"}
+              placeholder={"153"}
+              onChange={(e) => {
+                setWeightInput(e.target.value);
+              }}
+            />
+          ) : metricModeOn ? (
+            <input
+              type={"number"}
+              name={"weight"}
+              id={"weight"}
+              placeholder={"72"}
+              onChange={(e) => {
+                setWeightInput(e.target.value);
+              }}
+            />
+          ) : (
+            <div>404</div>
+          )}
         </div>
 
         <div className="row">
@@ -163,30 +160,39 @@ function Homepage(props) {
         </div>
 
         <div className="row">
-          <label htmlFor="height">What is your height?</label>
-          <input
-            type={"number"}
-            name={"height"}
-            id={"height"}
-            placeholder={"5'0"}
-            onChange={(e) => {
-              setHeightInput(e.target.value);
-            }}
-          />
+          <label htmlFor="height">
+            What is your height
+            {imperialModeOn ? (
+              <span>(in inches)?</span>
+            ) : metricModeOn ? (
+              <span>(in meters)?</span>
+            ) : null}
+          </label>
 
-          <label htmlFor="heightUnits">Units:</label>
-          <select
-            name="units"
-            id="heightUnits"
-            onChange={(e) => {
-              setHeightMode(e.target.value);
-            }}>
-            <option value={"inches"}>inches</option>
-            <option value={"meters"}>meters</option>
-          </select>
+          {imperialModeOn ? (
+            <input
+              type={"number"}
+              name={"height"}
+              id={"height"}
+              placeholder={"70"}
+              onChange={(e) => {
+                setHeightInput(e.target.value);
+              }}
+            />
+          ) : metricModeOn ? (
+            <input
+              type={"number"}
+              name={"height"}
+              id={"height"}
+              placeholder={"1.83 "}
+              onChange={(e) => {
+                setHeightInput(e.target.value);
+              }}
+            />
+          ) : null}
         </div>
 
-        <div>
+        <div className="row">
           <label>How active are you?</label>
           <select
             name="activity"
@@ -198,21 +204,25 @@ function Homepage(props) {
             <option value={"lightly"}>Lightly active</option>
             <option value={"moderately"}>Moderately Active</option>
             <option value={"very"}>Very Active</option>
+            <option value={"extremely"}>Extremely Active</option>
           </select>
         </div>
+
         <div>
-          {/* <Link to="/weight-table"> */}
-          <button
-            type="button"
-            onClick={(e) => {
-              storeStats(e);
-              console.log(ageInput);
-              console.log(personalStats.gender);
-              console.log(activityInput);
-            }}>
-            Submit
-          </button>
-          {/* </Link> */}
+          <Link to="/weight-table">
+            <button
+              type="button"
+              onClick={(e) => {
+                storeStats(e);
+                // console.log(ageInput);
+                // console.log(personalStats.gender);
+                console.log(personalStats.imperialMode);
+                console.log(personalStats.weight);
+                WeightTable(ageInput, genderInput);
+              }}>
+              Submit
+            </button>
+          </Link>
         </div>
       </form>
     </div>
