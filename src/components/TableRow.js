@@ -23,10 +23,37 @@ function TableRow() {
   const [activity, setActivity] = useState("");
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
+  const [imperialModeOn, setImperialModeOn] = useState(true);
+  const [bmr, setBmr] = useState("");
 
   const today = new Date();
   const weekFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
   console.log(weekFromToday);
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "aa7f620368mshcec54851d525b6fp11dff9jsn36ee04ed8231",
+      "X-RapidAPI-Host": "bmr-and-tmr.p.rapidapi.com"
+    }
+  };
+
+  async function getBmr() {
+    try {
+      const response = await fetch(
+        "https://body-mass-index-bmi-calculator.p.rapidapi.com/" +
+          `calculate-bmr?weight=${weight}&height=${height}&age=${age}&sex=${gender}&inImperial=${imperialModeOn}`,
+        options
+      );
+
+      const bmr = await response.json();
+      setBmr(bmr);
+
+      console.log(bmr.bmr);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   getDocs(storedStats).then((snapshot) => {
     snapshot.docs.forEach((document) => {
@@ -39,12 +66,11 @@ function TableRow() {
       setCalories(personalStats.calories);
       setHeight(personalStats.height);
       setActivity(personalStats.activity);
+      setImperialModeOn(personalStats.imperialMode);
     });
   });
 
-  const bmr = 655.1 + 4.35 * weight + 4.7 * height - 4.7 * age;
-
-  const tdee = bmr;
+  const tdee = bmr * 1.2;
 
   return (
     <tr>
@@ -52,6 +78,7 @@ function TableRow() {
       <td>{weight}</td>
       <td>{tdee}</td>
       <td>{tdee - calories}</td>
+      <button onClick={() => getBmr()}>Check BMR</button>
     </tr>
   );
 }
