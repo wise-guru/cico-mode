@@ -1,3 +1,4 @@
+import { tab } from "@testing-library/user-event/dist/tab";
 import { initializeApp } from "firebase/app";
 import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -24,11 +25,23 @@ function TableRow() {
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [imperialModeOn, setImperialModeOn] = useState(true);
+  const [tdeeMultiplier, setTdeeMultiplier] = useState("");
   const [bmr, setBmr] = useState("");
+  const [tableBmr, setTableBmr] = useState(0);
 
   const today = new Date();
   const weekFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
   console.log(weekFromToday);
+
+  const twoWeeksFromToday = new Date(
+    weekFromToday.getFullYear(),
+    weekFromToday.getMonth(),
+    weekFromToday.getDate() + 7
+  );
+  console.log(`Two weeks: ${twoWeeksFromToday}`);
+
+  const monthFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 60);
+  console.log(`Month from today: ${monthFromToday}`);
 
   const options = {
     method: "GET",
@@ -37,23 +50,6 @@ function TableRow() {
       "X-RapidAPI-Host": "bmr-and-tmr.p.rapidapi.com"
     }
   };
-
-  async function getBmr() {
-    try {
-      const response = await fetch(
-        "https://body-mass-index-bmi-calculator.p.rapidapi.com/" +
-          `calculate-bmr?weight=${weight}&height=${height}&age=${age}&sex=${gender}&inImperial=${imperialModeOn}`,
-        options
-      );
-
-      const bmr = await response.json();
-      setBmr(bmr);
-
-      console.log(bmr.bmr);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   getDocs(storedStats).then((snapshot) => {
     snapshot.docs.forEach((document) => {
@@ -67,18 +63,111 @@ function TableRow() {
       setHeight(personalStats.height);
       setActivity(personalStats.activity);
       setImperialModeOn(personalStats.imperialMode);
+      setTdeeMultiplier(personalStats.tdeeMultiplier);
     });
+
+    if (imperialModeOn) {
+      const bmr =
+        gender === "female"
+          ? 4.536 * weight + 15.88 * height - 5 * age - 161
+          : 4.536 * weight + 15.88 * height - 5 * age + 5;
+      setBmr(bmr);
+      console.log(`${bmr} imperial`);
+    } else {
+      const bmr =
+        gender === "female"
+          ? 10 * weight + 6.25 * height - 5 * age - 161
+          : 10 * weight + 6.25 * height - 5 * age + 5;
+      setBmr(bmr);
+      console.log(`${bmr} metric`);
+    }
   });
 
-  const tdee = bmr * 1.2;
+  const result = weekFromToday;
+  const date =
+    (result.getMonth().toString().length >= 1
+      ? result.getMonth() + 1
+      : "0" + (result.getMonth() + 1)) +
+    "/" +
+    (result.getDate().toString().length >= 1 ? result.getDate() : "0" + result.getDate()) +
+    "/" +
+    result.getFullYear();
+  //   console.log(date);
+  //   console.log(tdee);
+  //   console.log(activity);
+
+  const tdee = Math.round(bmr * tdeeMultiplier * 100) / 100;
+  const caloricDeficit = Math.round((tdee - calories) * 100) / 100;
+
+  const getTableRows = () => {
+    const tableRows = [
+      {
+        dayRow: date,
+        weightRow: weight,
+        caloriesBurnedRow: calories,
+        deficitRow: caloricDeficit
+      }
+    ];
+
+    for (let i = 0; i < 10; i++) {
+      const addedDay = (i + 1) * 7;
+      const date = new Date(
+        weekFromToday.getFullYear(),
+        weekFromToday.getMonth(),
+        weekFromToday.getDate() + addedDay
+      );
+
+      const formattedDate =
+        (date.getMonth().toString().length >= 1
+          ? date.getMonth() + 1
+          : "0" + (date.getMonth() + 1)) +
+        "/" +
+        (date.getDate().toString().length >= 1 ? date.getDate() : "0" + date.getDate()) +
+        "/" +
+        date.getFullYear();
+
+      const weightCalories = (tableRows[i].weightRow * 3500 - tableRows[i].deficitRow) / 3500;
+
+      if (imperialModeOn) {
+        const bmr =
+          gender === "female"
+            ? 4.536 * weightCalories + 15.88 * height - 5 * age - 161
+            : 4.536 * weightCalories + 15.88 * height - 5 * age + 5;
+        setTableBmr(bmr);
+        console.log(`${tableBmr} imperial`);
+      } else {
+        const bmr =
+          gender === "female"
+            ? 10 * weightCalories + 6.25 * height - 5 * age - 161
+            : 10 * weightCalories + 6.25 * height - 5 * age + 5;
+        setTableBmr(bmr);
+        console.log(`${tableBmr} metric`);
+      }
+      const tdee = Math.round(tableBmr * tdeeMultiplier * 100) / 100;
+      const caloricDeficit = Math.round((tdee - calories) * 100) / 100;
+
+      const num = {
+        dayRow: formattedDate,
+        weightRow: weightCalories,
+        caloriesBurnedRow: tdee,
+        deficitRow: caloricDeficit
+      };
+
+      tableRows.push(num);
+    }
+    console.log(tableRows);
+  };
+
+  console.log(tdee);
+  console.log(tdeeMultiplier);
 
   return (
     <tr>
-      <th>weekFromToday</th>
-      <td>{weight}</td>
-      <td>{tdee}</td>
-      <td>{tdee - calories}</td>
-      <button onClick={() => getBmr()}>Check BMR</button>
+      <th className="date">{date}</th>
+      <td className="weight">{weight}</td>
+      <td className="tdee">{tdee}</td>
+      <td className="deficit">{caloricDeficit}</td>
+      <a onClick={() => getTableRows()}>Table Rows</a>
     </tr>
   );
 }
