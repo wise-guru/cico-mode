@@ -1,38 +1,120 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App {
+  height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header, .footer {
   display: flex;
-  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 0 1rem 0 0.5rem;
+
+  background-color: #2f3e46;
+  color: #fff;
+
+}
+
+.titleBox {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.header a {
+  text-decoration: none;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header a:hover {
+color: #CAD2C5;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.homepage button {
+
+}
+
+/* Homepage column forms */
+
+.homepage form {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto;
+  justify-content: center;
+}
+
+.homepage .row {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.homepage .firstCol {
+  display: grid;
+  grid-column: 1 / 2;
+}
+
+.homepage .secondCol {
+  display: grid;
+  grid-column: 2 / 3;
+}
+
+.homepage .bothCol {
+  grid-column: 1 / 3;
+}
+
+.homepage .first.row {
+  grid-row: 1;
+}
+
+.homepage .second.row {
+  grid-row: 2;
+}
+
+.homepage .third.row {
+  grid-row: 3;
+}
+
+.homepage .fourth.row {
+  grid-row: 4;
+}
+
+.homepage .fifth.row {
+  grid-row: 5;
+}
+
+.homepage .sixth.row {
+  grid-row: 6;
+}
+
+.homepage .seventh.row {
+  grid-row: 7;
+}
+
+.homepage form label {
+  width: 200px;
+}
+
+.homepage .row input, .row select {
+  width: 280px;
+  height: 36px;
 }
