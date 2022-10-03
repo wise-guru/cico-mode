@@ -4,7 +4,7 @@ import Logo from "../assets/cicoCropped.png";
 function Header() {
   return (
     <header className="header">
-      <div>
+      <div className="titleBox">
         <Link to={"/"}>
           <div className="logo">
             <img src={Logo} alt="Grey letter C" />
