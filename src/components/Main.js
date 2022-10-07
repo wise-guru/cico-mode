@@ -157,8 +157,8 @@ function Main(props) {
       tableRowsArray.push(num);
       console.log(tableRowsArray);
 
-      const storedTableArray = tableRowsArray.filter(function (index) {
-        return index % 7 == 0;
+      const storedTableArray = tableRowsArray.filter(function (row, index) {
+        return index % 7 === 0;
       });
       console.log(storedTableArray);
       setTableRows(tableRowsArray);
