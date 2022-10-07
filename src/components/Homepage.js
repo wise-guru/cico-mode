@@ -326,7 +326,7 @@ function Homepage(props) {
   // })
 
   return (
-    <div className="homepage">
+    <div className="homepage bothCol">
       <h1>Weight Calculator</h1>
 
       {/* <div className="buttons">
@@ -395,8 +395,9 @@ function Homepage(props) {
       </div>
 
       <form>
-        <div className="first row">
+        <div className="first">
           <input
+            className="genderInput"
             type={"radio"}
             name={"gender"}
             value={"male"}
@@ -406,9 +407,12 @@ function Homepage(props) {
               checkForm(e);
             }}
           />
-          <label htmlFor={"male"}>Male</label>
+          <label className="genderLabel secondCol" htmlFor={"male"}>
+            Male
+          </label>
 
           <input
+            className="genderInput"
             type={"radio"}
             name={"gender"}
             value={"female"}
@@ -418,15 +422,17 @@ function Homepage(props) {
               checkForm(e);
             }}
           />
-          <label htmlFor={"female"}>Female</label>
+          <label className="genderLabel secondCol" htmlFor={"female"}>
+            Female
+          </label>
         </div>
 
         <div className="second row">
           <label className="firstCol">
             What is your weight
-            {imperialBtn.checked ? (
+            {imperialModeOn ? (
               <span>(in pounds)?</span>
-            ) : metricBtn.checked ? (
+            ) : metricModeOn ? (
               <span>(in kilograms)?</span>
             ) : null}
           </label>
@@ -498,7 +504,7 @@ function Homepage(props) {
             {imperialModeOn ? (
               <span>(in inches)?</span>
             ) : metricModeOn ? (
-              <span>(in meters)?</span>
+              <span>(in centimeters)?</span>
             ) : null}
           </label>
 
@@ -520,7 +526,7 @@ function Homepage(props) {
               className="secondCol"
               name={"height"}
               id={"height"}
-              placeholder={"1.83 "}
+              placeholder={"183"}
               onChange={(e) => {
                 setHeightInput(e.target.value);
                 checkForm(e);
@@ -552,29 +558,32 @@ function Homepage(props) {
         </div>
 
         <div className="seventh row">
-          {/* {buttonOn ? ( */}
-          <Link to="/weight-table">
-            <button
-              type="button"
-              onClick={(e) => {
-                storeStats(e);
-                // getBmr();
-                // storeStats(e);
-                // <TableRow tableRowsArray={tableRowsArray} />;
-                // console.log(ageInput);
-                // console.log(personalStats.gender);
-                // console.log(personalStats.imperialMode);
-                // console.log(personalStats.weight);
-                // WeightTable(ageInput, genderInput);
-              }}>
-              Submit
-            </button>
-          </Link>
-          {/* ) : (
-            <button type="button" disabled={true}>
-              Submit
-            </button>
-          )} */}
+          {buttonOn ? (
+            <Link to="/weight-table">
+              <button
+                className="submitBtn"
+                type="button"
+                onClick={(e) => {
+                  storeStats(e);
+                  // getBmr();
+                  // storeStats(e);
+                  // <TableRow tableRowsArray={tableRowsArray} />;
+                  // console.log(ageInput);
+                  // console.log(personalStats.gender);
+                  // console.log(personalStats.imperialMode);
+                  // console.log(personalStats.weight);
+                  // WeightTable(ageInput, genderInput);
+                }}>
+                Submit
+              </button>
+            </Link>
+          ) : (
+            <div>
+              <button className="submitBtn" type="button" disabled={true}>
+                Submit
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>
