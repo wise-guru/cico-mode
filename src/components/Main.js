@@ -53,13 +53,11 @@ function Main(props) {
 
   //Convert date to MM/DD/YY
   const date =
-    (weekFromToday.getMonth().toString().length >= 1
-      ? weekFromToday.getMonth() + 1
-      : "0" + (weekFromToday.getMonth() + 1)) +
+    (today.getMonth().toString().length >= 1
+      ? today.getMonth() + 1
+      : "0" + (today.getMonth() + 1)) +
     "/" +
-    (weekFromToday.getDate().toString().length >= 1
-      ? weekFromToday.getDate()
-      : "0" + weekFromToday.getDate()) +
+    (today.getDate().toString().length >= 1 ? today.getDate() : "0" + today.getDate()) +
     "/" +
     weekFromToday.getFullYear();
 
@@ -123,13 +121,9 @@ function Main(props) {
       }
     ];
     //Created Array to be displayed on table
-    for (let i = 0; i < 53; i++) {
-      const addedDay = (i + 1) * 7;
-      const dateCell = new Date(
-        weekFromToday.getFullYear(),
-        weekFromToday.getMonth(),
-        weekFromToday.getDate() + addedDay
-      );
+    for (let i = 0; i < 365; i++) {
+      const addedDay = i + 1;
+      const dateCell = new Date(today.getFullYear(), today.getMonth(), today.getDate() + addedDay);
 
       const formattedDate =
         (dateCell.getMonth().toString().length >= 1
@@ -155,7 +149,7 @@ function Main(props) {
           : 10 * weightCalories + 6.25 * heightInput - 5 * ageInput + 5;
 
       const tdeeCell = Math.round(bmrCell * tdeeMultiplier * 100) / 100;
-      const caloricDeficit = Math.round((tdeeCell - caloriesInput) * 100) / 100;
+      const caloricDeficit = tdeeCell - caloriesInput;
 
       const num = {
         dayRow: formattedDate,
@@ -165,10 +159,16 @@ function Main(props) {
       };
 
       tableRowsArray.push(num);
+      console.log(tableRowsArray);
+
+      const storedTableArray = tableRowsArray.filter(function (row, index, ar) {
+        return index % 7 == 0;
+      });
+      console.log(storedTableArray);
       setTableRows(tableRowsArray);
 
       updateDoc(tableStats, {
-        current: tableRowsArray
+        current: storedTableArray
       }).then(() => {});
     }
 
