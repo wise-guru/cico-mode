@@ -49,7 +49,6 @@ function Main(props) {
   const caloricDeficit = tdee - caloriesInput;
 
   const today = new Date();
-  const weekFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
 
   //Convert date to MM/DD/YY
   const date =
@@ -59,7 +58,7 @@ function Main(props) {
     "/" +
     (today.getDate().toString().length >= 1 ? today.getDate() : "0" + today.getDate()) +
     "/" +
-    weekFromToday.getFullYear();
+    today.getFullYear();
 
   const personalStats = {
     gender: genderInput,
@@ -161,7 +160,7 @@ function Main(props) {
       tableRowsArray.push(num);
       console.log(tableRowsArray);
 
-      const storedTableArray = tableRowsArray.filter(function (row, index, ar) {
+      const storedTableArray = tableRowsArray.filter(function (index) {
         return index % 7 == 0;
       });
       console.log(storedTableArray);
