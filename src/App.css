@@ -62,13 +62,10 @@ body {
 color: #CAD2C5;
 }
 
-.homepage button {
-
-}
 
 /* Homepage column forms */
 
-/* .homepage  */
+
 form {
   display: grid;
   grid-auto-flow: column;
@@ -77,27 +74,26 @@ form {
   gap: 8px;
 }
 
-/* .homepage  */
+
 .row
- /* .first */
+
   {
   display: grid;
   grid-auto-flow: column;
 }
 
-/* .homepage  */
+
 .firstCol {
   display: grid;
   grid-column: 1 / 2;
 }
 
-/* .homepage  */
+
 .secondCol {
   display: grid;
   grid-column: 2 / 3;
 }
 
-/* .homepage  */
 .bothCol {
   grid-column: 1 / 3;
 }
@@ -107,51 +103,46 @@ form {
   grid-row: 1;
 }
 
-/* .homepage  */
+
 .second.row {
   grid-row: 2;
 }
 
-/* .homepage  */
+
 .third.row {
   grid-row: 3;
 }
 
-/* .homepage  */
+
 .fourth.row {
   grid-row: 4;
 }
-/* 
-.homepage  */
+
 .fifth.row {
   grid-row: 5;
 }
 
-/* .homepage  */
+
 .sixth.row {
   grid-row: 6;
 }
 
-/* .homepage */
  .seventh.row {
   grid-row: 7;
 }
 
-/* .homepage  */
+
 form 
 label {
   width: 200px;
 }
 
-/* .homepage  */
+
 .row input[type="number"], .row select {
   width: 20rem;
   height: 36px;
 }
 
-/* .row select {
-  padding: auto;
-} */
 
 /* Imperial and Metric buttons */
 
@@ -186,8 +177,6 @@ label {
 }
 
 
-
-
 /* Weight table select styles */
 .select {
   padding: 8px 12px;
@@ -196,14 +185,6 @@ label {
   border: 1px solid #dddddd;
   cursor: pointer;
   border-radius: 5px;
-
-  /* appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('arrow.svg');
-  background-position: right 10px top 50%;
-  background-size: 10px; */
-
   padding-right: 30px;
 
 }
@@ -221,6 +202,8 @@ label {
   background-color: #84A98C;
 }
 
+
+
 /* Gender buttons */
 
 .homepage .first {
@@ -236,7 +219,6 @@ label {
 }
 
 .genderLabel {
-  /* position: relative; */
   color: black;
   font-size: 18px;
   border: 1px solid black;
@@ -270,6 +252,7 @@ label {
   background-color: #52796F;
 }
 
+
 /* Submit button */
 .submitBtn, .submitBtn:disabled {
   border-radius: 15px;
@@ -293,7 +276,6 @@ label {
   border: 2px solid #84A98C;
 }
 
-.submitBtn:disabled
 
 
 /* Table Styles */
