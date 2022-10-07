@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/cico-mode/static/css/main.3e03f2e7.css",
-    "main.js": "/cico-mode/static/js/main.4293439a.js",
+    "main.js": "/cico-mode/static/js/main.118e30be.js",
     "static/media/cicoCropped.png": "/cico-mode/static/media/cicoCropped.3ecfd6207b1675ec9295.png",
     "index.html": "/cico-mode/index.html",
     "main.3e03f2e7.css.map": "/cico-mode/static/css/main.3e03f2e7.css.map",
-    "main.4293439a.js.map": "/cico-mode/static/js/main.4293439a.js.map"
+    "main.118e30be.js.map": "/cico-mode/static/js/main.118e30be.js.map"
   },
   "entrypoints": [
     "static/css/main.3e03f2e7.css",
-    "static/js/main.4293439a.js"
+    "static/js/main.118e30be.js"
   ]
 }
