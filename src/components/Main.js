@@ -3,7 +3,7 @@ import Homepage from "./Homepage";
 import BMICalculator from "./BMICalculator";
 import WeightTable from "./WeightTable";
 import { useState } from "react";
-import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -32,7 +32,6 @@ function Main(props) {
   const [heightInput, setHeightInput] = useState(props?.value ?? 0);
   const [activityInput, setActivityInput] = useState(props?.value ?? "sedentary");
   const [tdeeMultiplier, setTdeeMultiplier] = useState(1.2);
-  // const [bmr, setBmr] = useState("");
   const tableStats = doc(db, "weight-table", "table");
   const storedStats = doc(db, "weight-calculator", "stats");
 
@@ -74,42 +73,6 @@ function Main(props) {
     tdee: tdee,
     bmr: bmr
   };
-
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "aa7f620368mshcec54851d525b6fp11dff9jsn36ee04ed8231",
-      "X-RapidAPI-Host": "bmr-and-tmr.p.rapidapi.com"
-    }
-  };
-
-  // async function getBmr() {
-  // try {
-  //   const response = await fetch(
-  //     "https://body-mass-index-bmi-calculator.p.rapidapi.com/" +
-  //       `calculate-bmr?weight=${personalStats.weight}&height=${personalStats.height}&age=${personalStats.age}&sex=${personalStats.gender}&inImperial=${imperialModeOn}`,
-  //     options
-  //   );
-
-  //   const bmr = await response.json();
-  //   setBmr(bmr.bmr);
-
-  //   updateDoc(storedStats, {
-  //     current: [
-  //       // { gender: "chicken" },
-  //       // { female: "bologna" },
-  //       // { calories: "" },
-  //       // { age: 0 },
-  //       // { height: 0 },
-  //       // { activity: 0 }
-  //       { bmr: bmr.bmr }
-  //     ]
-  //   });
-
-  //   //   console.log(bmr.bmr);
-  // } catch (error) {
-  //   console.log(error);
-  // }
 
   const getTdeeMultiplier = (e) => {
     if (e === "sedentary") {
@@ -184,20 +147,10 @@ function Main(props) {
 
       tableRowsArray.push(num);
       setTableRows(tableRowsArray);
-      // console.log(tableRowsArray);
-      // console.log(tableRows);
-      // return (
-      //   <tr>
-      //     <td>{num.dayRow}</td>
-      //     <td>{num.weightRow}</td>
-      //     <td>{num.caloriesBurnedRow}</td>
-      //     <td>{num.caloricDeficit}</td>
-      //   </tr>
-      // );
     }
   };
 
-  const checkForm = (e) => {
+  const checkForm = () => {
     if (
       genderInput !== "" &&
       weightInput > 0 &&
@@ -213,7 +166,7 @@ function Main(props) {
     }
   };
 
-  const storeStats = (e) => {
+  const storeStats = () => {
     const tableRowsArray = [
       {
         dayRow: date,
@@ -254,12 +207,6 @@ function Main(props) {
           ? 10 * weightCalories + 6.25 * heightInput - 5 * ageInput - 161
           : 10 * weightCalories + 6.25 * heightInput - 5 * ageInput + 5;
 
-      // if(genderInput === "female" && imperialModeOn) {
-      //   4.536 * weightCalories + 15.88 * heightInput - 5 * ageInput - 161
-      // } else if genderInput === "female" && metricModeOn {
-      //   4.536 * weightCalories + 15.88 * heightInput - 5 * ageInput + 5
-      // }
-
       const tdeeCell = Math.round(bmrCell * tdeeMultiplier * 100) / 100;
       const caloricDeficit = Math.round((tdeeCell - caloriesInput) * 100) / 100;
 
@@ -272,19 +219,9 @@ function Main(props) {
 
       tableRowsArray.push(num);
       setTableRows(tableRowsArray);
-      // console.log(tableRowsArray);
-      // WeightTable(tableRowsArray);
-      // console.log(tableRows);
 
       updateDoc(tableStats, {
-        current:
-          // { gender: "chicken" },
-          // { female: "bologna" },
-          // { calories: "" },
-          // { age: 0 },
-          // { height: 0 },
-          // { activity: 0 }
-          tableRowsArray
+        current: tableRowsArray
       }).then(() => {});
     }
 
