@@ -102,9 +102,6 @@ function Main(props) {
       heightInput > 0 &&
       activityInput !== ""
     ) {
-      console.log("form checked");
-      // storeStats(e);
-
       setButtonOn(true);
     }
   };
