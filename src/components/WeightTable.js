@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { useState } from "react";
 import TableRow from "./TableRow";
 
 const firebaseConfig = {
@@ -15,64 +16,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-function WeightTable(props) {
-  // const storeStats = () => {
-  //   const storedStats = doc(db, "weight-calculator", "stats");
-  //   updateDoc(storedStats, {
-  //     current: [
-  //       { gender: "chicken" },
-  //       { female: "bologna" },
-  //       { calories: "" },
-  //       { age: 0 },
-  //       { height: 0 },
-  //       { activity: 0 }
-  //     ]
-  //   }).then(() => {});
-  // };
+const today = new Date();
+const weekFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
+function WeightTable(props) {
+  const [weeks, setWeeks] = useState(props.value ?? 52);
   const tableInfo = (e) => {
     const storedStats = collection(db, "weight-calculator");
 
     getDocs(storedStats).then((snapshot) => {
       snapshot.docs.forEach((document) => {
         console.log(document.data().current[0].age);
-        return (
-          <tbody>
-            <tr>
-              <th>${document.child}</th>
-              <td>324</td>
-              <td>1693</td>
-              <td>500</td>
-            </tr>
-          </tbody>
-        );
       });
     });
   };
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">day</th>
-            <th scope="col">Weight</th>
-            <th scope="col">Calories Burned</th>
-            <th scope="col">Your Calorie Deficit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <TableRow />
-        </tbody>
-      </table>
-      <button
-        type="button"
-        onClick={(e) => {
-          tableInfo(e);
-          console.log("click");
+    <div className="weightTablePage">
+      <select
+        className="select"
+        onChange={(e) => {
+          setWeeks(e.target.value);
         }}>
-        Check
-      </button>
+        <option value={4}>4 weeks</option>
+        <option value={13}>3 months</option>
+        <option value={26}>6 months</option>
+        <option selected value={52}>
+          1 year
+        </option>
+      </select>
+      <TableRow weeks={weeks} />
     </div>
   );
 }
