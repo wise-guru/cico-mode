@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 function BMICalculator() {
-  //   const kgModeRef = useRef(null);
+  const [selected, setSelected] = useState("imperial");
   const [metricModeOn, setMetricModeOn] = useState(false);
-
-  //   const lbsModeRef = useRef(null);
   const [imperialModeOn, setImperialModeOn] = useState(true);
+  const [showBmiInfo, setShowBmiInfo] = useState(true);
+  const [bmi, setBmi] = useState("");
 
   const options = {
     method: "GET",
@@ -23,6 +23,8 @@ function BMICalculator() {
       );
 
       const BmiKilo = await getBmi.json();
+      const bmi = Math.round(BmiKilo.bmi * 100) / 100;
+      setBmi(bmi);
       console.log(BmiKilo);
     } catch (error) {
       console.log(error);
@@ -36,8 +38,10 @@ function BMICalculator() {
         options
       );
 
-      const BmiKilo = await getBmi.json();
-      console.log(BmiKilo);
+      const BmiPounds = await getBmi.json();
+      const bmi = Math.round(BmiPounds.bmi * 100) / 100;
+      setBmi(bmi);
+      console.log(BmiPounds);
     } catch (error) {
       console.log(error);
     }
@@ -45,28 +49,49 @@ function BMICalculator() {
 
   return (
     <div className="bmiCalc">
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            setMetricModeOn(false);
-            setImperialModeOn(true);
-          }}>
-          lbs
-        </button>
+      <h1>BMI Calculator</h1>
+      <div className="unitBtns">
+        <input
+          className="unitBtn"
+          type={"radio"}
+          name={"unit"}
+          value={"imperial"}
+          id={"imperial"}
+          checked={selected === "imperial"}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelected(e.target.value);
+              setMetricModeOn(false);
+              setImperialModeOn(true);
+            }
+          }}
+        />
+        <label className="unitLabel" htmlFor={"imperial"}>
+          Imperial
+        </label>
 
-        <button
-          type="button"
-          onClick={() => {
-            setImperialModeOn(false);
-            setMetricModeOn(true);
-          }}>
-          Kgs
-        </button>
+        <input
+          className="unitBtn"
+          type={"radio"}
+          name={"unit"}
+          value={"metric"}
+          id={"metric"}
+          checked={selected === "metric"}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelected(e.target.value);
+              setImperialModeOn(false);
+              setMetricModeOn(true);
+            }
+          }}
+        />
+        <label className="unitLabel" htmlFor={"metric"}>
+          Metric
+        </label>
       </div>
       <form>
-        <div className="row">
-          <label>
+        <div className="first row">
+          <label className="firstCol">
             What is your weight
             {imperialModeOn ? (
               <span>(in pounds)?</span>
@@ -75,44 +100,86 @@ function BMICalculator() {
             ) : null}
           </label>
           {imperialModeOn ? (
-            <input type={"number"} name={"weight"} id={"weight"} placeholder={"153"} />
+            <input
+              className="secondCol"
+              type={"number"}
+              name={"weight"}
+              id={"weight"}
+              placeholder={"153"}
+            />
           ) : metricModeOn ? (
-            <input type={"number"} name={"weight"} id={"weight"} placeholder={"72"} />
+            <input
+              className="secondCol"
+              type={"number"}
+              name={"weight"}
+              id={"weight"}
+              placeholder={"72"}
+            />
           ) : (
             <div>404</div>
           )}
         </div>
 
-        <div className="row">
-          <label htmlFor="height">
+        <div className=" second row">
+          <label className="firstCol" htmlFor="height">
             What is your height
             {imperialModeOn ? (
               <span>(in inches)?</span>
             ) : metricModeOn ? (
-              <span>(in meters)?</span>
+              <span>(in centimeters)?</span>
             ) : null}
           </label>
 
           {imperialModeOn ? (
-            <input type={"number"} name={"height"} id={"height"} placeholder={"70"} />
+            <input
+              className="secondCol"
+              type={"number"}
+              name={"height"}
+              id={"height"}
+              placeholder={"70"}
+            />
           ) : metricModeOn ? (
-            <input type={"number"} name={"height"} id={"height"} placeholder={"1.83 "} />
+            <input
+              className="secondCol"
+              type={"number"}
+              name={"height"}
+              id={"height"}
+              placeholder={"183"}
+            />
           ) : null}
         </div>
       </form>
-      <button
-        type="button"
-        onClick={() => {
-          if (metricModeOn) {
-            // getBmiKilo();
-            console.log("kilos");
-          } else if (imperialModeOn) {
-            // getBmiPounds();
-            console.log("pounds");
-          }
-        }}>
-        Check
-      </button>
+      <div className="">
+        <button
+          className="submitBtn"
+          type="button"
+          onClick={() => {
+            if (metricModeOn) {
+              getBmiKilo();
+              setShowBmiInfo(true);
+              console.log("kilos");
+            } else if (imperialModeOn) {
+              getBmiPounds();
+              console.log("pounds");
+            }
+          }}>
+          Check
+        </button>
+      </div>
+      {showBmiInfo ? (
+        <div className="bmiInfo">
+          <p>
+            <strong>Your BMI is: {bmi}</strong>
+          </p>
+          <div className="bmiCategories">
+            <p>BMI Categories:</p>
+            <p>Underweight = &lt;18.5</p>
+            <p>Normal weight = 18.5-24.9</p>
+            <p>Overweight = 25-29.9</p>
+            <p>Obesity = BMI of 30 or greater</p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
