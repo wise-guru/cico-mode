@@ -50,6 +50,8 @@ function Main(props) {
 
   const today = new Date();
   const weekFromToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+
+  //Convert date to MM/DD/YY
   const date =
     (weekFromToday.getMonth().toString().length >= 1
       ? weekFromToday.getMonth() + 1
@@ -94,62 +96,6 @@ function Main(props) {
     }
   };
 
-  const getTableRows = () => {
-    const tableRowsArray = [
-      {
-        dayRow: date,
-        weightRow: weightInput,
-        caloriesBurnedRow: tdee,
-        deficitRow: caloricDeficit
-      }
-    ];
-
-    for (let i = 0; i < 10; i++) {
-      const addedDay = (i + 1) * 7;
-      const dateCell = new Date(
-        weekFromToday.getFullYear(),
-        weekFromToday.getMonth(),
-        weekFromToday.getDate() + addedDay
-      );
-
-      const formattedDate =
-        (dateCell.getMonth().toString().length >= 1
-          ? dateCell.getMonth() + 1
-          : "0" + (dateCell.getMonth() + 1)) +
-        "/" +
-        (dateCell.getDate().toString().length >= 1
-          ? dateCell.getDate()
-          : "0" + dateCell.getDate()) +
-        "/" +
-        dateCell.getFullYear();
-
-      const weightCalories =
-        Math.round(tableRowsArray[i].weightRow * 3500 - tableRowsArray[i].deficitRow) / 3500;
-
-      const bmrCell =
-        genderInput === "female" && imperialModeOn
-          ? 4.536 * weightCalories + 15.88 * heightInput - 5 * ageInput - 161
-          : genderInput === "female" && !imperialModeOn
-          ? 4.536 * weightCalories + 15.88 * heightInput - 5 * ageInput + 5
-          : genderInput === "male" && imperialModeOn
-          ? 10 * weightCalories + 6.25 * heightInput - 5 * ageInput - 161
-          : 10 * weightCalories + 6.25 * heightInput - 5 * ageInput + 5;
-
-      const tdeeCell = Math.round(bmrCell * tdeeMultiplier * 100) / 100;
-      const caloricDeficit = Math.round((tdeeCell - caloriesInput) * 100) / 100;
-
-      const num = {
-        dayRow: formattedDate,
-        weightRow: Math.round(weightCalories * 100) / 100,
-        caloriesBurnedRow: tdeeCell,
-        deficitRow: caloricDeficit
-      };
-
-      tableRowsArray.push(num);
-      setTableRows(tableRowsArray);
-    }
-  };
-
   const checkForm = () => {
     if (
       genderInput !== "" &&
@@ -166,6 +112,7 @@ function Main(props) {
     }
   };
 
+  //Store table info on firebase
   const storeStats = () => {
     const tableRowsArray = [
       {
@@ -175,7 +122,7 @@ function Main(props) {
         deficitRow: Math.round(caloricDeficit * 100) / 100
       }
     ];
-
+    //Created Array to be displayed on table
     for (let i = 0; i < 53; i++) {
       const addedDay = (i + 1) * 7;
       const dateCell = new Date(
@@ -250,7 +197,7 @@ function Main(props) {
             caloriesInput={caloriesInput}
             setCaloriesInput={setCaloriesInput}
             getTdeeMultiplier={getTdeeMultiplier}
-            getTableRows={getTableRows}
+            // getTableRows={getTableRows}
             checkForm={checkForm}
             storeStats={storeStats}
             buttonOn={buttonOn}
