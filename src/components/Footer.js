@@ -4,7 +4,9 @@ function Footer() {
   return (
     <footer className="footer">
       <div>Copyright © 2022 </div>
-      <img src={Github} alt="Github Logo" />
+      <a href="https://github.com/wise-guru/cico-mode">
+        <img src={Github} alt="Github Logo" />
+      </a>
     </footer>
   );
 }
