@@ -1,7 +1,6 @@
-import { tab } from "@testing-library/user-event/dist/tab";
 import { initializeApp } from "firebase/app";
-import { collection, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { useState } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyABOssmOXbt97PKwC1zEnnoZbfNgWW0Flo",
@@ -18,12 +17,7 @@ const db = getFirestore(app);
 
 function TableRow(props) {
   const { tableRows, weeks } = props;
-  const storedStats = collection(db, "weight-calculator");
-  // const tableStats = doc(db, "weight-table", "table");
   const storedTable = collection(db, "weight-table");
-
-  //   const [tableRows, setTableRows] = useState();
-  const [addTableRows, setAddTableRows] = useState(true);
   const [rows, setRows] = useState([]);
 
   getDocs(storedTable).then((snapshot) => {
@@ -36,18 +30,12 @@ function TableRow(props) {
 
   return (
     <div>
-      {/* <button
-        onClick={() => {
-          setAddTableRows(true);
-        }}>
-        Generate Table
-      </button> */}
       <table className="weightTable">
         <thead>
           <tr>
-            <th scope="col">day</th>
+            <th scope="col">Day</th>
             <th scope="col">Weight</th>
-            <th scope="col">Calories Burned</th>
+            <th scope="col">Calories Burned (TDEE)</th>
             <th scope="col">Your Calorie Deficit</th>
           </tr>
         </thead>
@@ -77,7 +65,6 @@ function TableRow(props) {
           ) : (
             <div>404</div>
           )}
-          {console.log(tableRows)}
         </tbody>
       </table>
     </div>
