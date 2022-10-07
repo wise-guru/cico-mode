@@ -1,11 +1,14 @@
-body {
+body, .App {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
+  min-height: 100vh;
+  }
+
 
 .App {
   text-align: center;
+ 
 }
 
 body {
@@ -18,19 +21,28 @@ body {
 }
 
 .header, .footer {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  background-color: #2f3e46 ;
+  align-items: center;
+
+  color: #fff;
+
+  padding: 28px;
+
+}
+
+.footer {
+  padding: 32px;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* Header */
 .header {
-  display: grid;
-  grid-auto-flow: column;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem 0 0.5rem;
-
-  background-color: #2f3e46;
-  color: #fff;
 
 }
 
@@ -56,65 +68,295 @@ color: #CAD2C5;
 
 /* Homepage column forms */
 
-.homepage form {
+/* .homepage  */
+form {
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: auto;
   justify-content: center;
+  gap: 8px;
 }
 
-.homepage .row {
+/* .homepage  */
+.row
+ /* .first */
+  {
   display: grid;
   grid-auto-flow: column;
 }
 
-.homepage .firstCol {
+/* .homepage  */
+.firstCol {
   display: grid;
   grid-column: 1 / 2;
 }
 
-.homepage .secondCol {
+/* .homepage  */
+.secondCol {
   display: grid;
   grid-column: 2 / 3;
 }
 
-.homepage .bothCol {
+/* .homepage  */
+.bothCol {
   grid-column: 1 / 3;
 }
 
-.homepage .first.row {
+.homepage 
+.first {
   grid-row: 1;
 }
 
-.homepage .second.row {
+/* .homepage  */
+.second.row {
   grid-row: 2;
 }
 
-.homepage .third.row {
+/* .homepage  */
+.third.row {
   grid-row: 3;
 }
 
-.homepage .fourth.row {
+/* .homepage  */
+.fourth.row {
   grid-row: 4;
 }
-
-.homepage .fifth.row {
+/* 
+.homepage  */
+.fifth.row {
   grid-row: 5;
 }
 
-.homepage .sixth.row {
+/* .homepage  */
+.sixth.row {
   grid-row: 6;
 }
 
-.homepage .seventh.row {
+/* .homepage */
+ .seventh.row {
   grid-row: 7;
 }
 
-.homepage form label {
+/* .homepage  */
+form 
+label {
   width: 200px;
 }
 
-.homepage .row input, .row select {
-  width: 280px;
+/* .homepage  */
+.row input[type="number"], .row select {
+  width: 20rem;
   height: 36px;
+}
+
+/* .row select {
+  padding: auto;
+} */
+
+/* Imperial and Metric buttons */
+
+
+.unitBtns {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+}
+
+.unitBtns input {
+  display: none;
+}
+
+.unitBtns label {
+  padding: 8px 14px;
+  font-size: 14px;
+  background-color: white;
+  color: #84A98C;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.unitBtns label:not(:last-of-type) {
+  border-right: 1px solid #566e5c ;
+}
+
+.unitBtns input:checked + .unitLabel {
+  background-color: #84A98C;
+  color: #fff;
+}
+
+
+
+
+/* Weight table select styles */
+.select {
+  padding: 8px 12px;
+  color: #333333;
+  background-color: #eeeeee;
+  border: 1px solid #dddddd;
+  cursor: pointer;
+  border-radius: 5px;
+
+  /* appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('arrow.svg');
+  background-position: right 10px top 50%;
+  background-size: 10px; */
+
+  padding-right: 30px;
+
+}
+
+.select:hover, .select:focus {
+  outline: none;
+  border: 1px solid #bbbbbb;
+}
+
+.select option {
+  background: #ffffff;
+}
+
+.select option:hover {
+  background-color: #84A98C;
+}
+
+/* Gender buttons */
+
+.homepage .first {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-top: 8px;
+  gap: 4px;
+}
+
+.genderInput {
+  display: none;
+}
+
+.genderLabel {
+  /* position: relative; */
+  color: black;
+  font-size: 18px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 110px;
+}
+
+.genderLabel:before {
+  content: "";
+  height: 25px;
+  width: 25px;
+  border: 3px solid #52796F;
+
+  border-radius: 50%;
+  margin-right: 18px;
+}
+
+.genderInput:checked + .genderLabel {
+  background-color:#52796F;
+  color: white;
+}
+
+.genderInput:checked + .genderLabel:before {
+  height: 14px;
+  width: 14px;
+  border: 8px solid white;
+  background-color: #52796F;
+}
+
+/* Submit button */
+.submitBtn, .submitBtn:disabled {
+  border-radius: 15px;
+  background-color: #84A98C;
+  color: #fff;
+  font-weight: bold;
+  height: 2rem;
+  width: 6rem;
+  border: none;
+}
+
+.submitBtn:disabled {
+  background-color: #ced4da;
+  pointer-events: none;
+}
+
+.submitBtn:hover {
+  background-color:white;
+  color:#84A98C;
+  cursor: pointer;
+  border: 2px solid #84A98C;
+}
+
+.submitBtn:disabled
+
+
+/* Table Styles */
+
+.weightTablePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.weightTable {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9rem;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+.weightTable thead tr {
+  background-color: #84A98C;
+  color: #fff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.weightTable th, .weightTable td {
+  padding: 12px 15px;
+
+}
+
+.weightTable tbody tr {
+   border-bottom: 1px solid #ddd;
+}
+
+.weightTable tbody tr:nth-last-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.weightTable tbody tr:last-of-type {
+  border-bottom: 2px solid #84A98C;
+}
+
+.weightTable tbdoy tr:active {
+  font-weight: bold;
+  color: #84A98C;
+}
+
+
+/* BMI calculator */
+
+.bmiCalc, .homepage, .weightTablePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bmiInfo {
+  border: 2.5px solid #84A98C;
+  width: 30rem;
+  border-radius: 10px;
 }
