@@ -194,10 +194,8 @@ function Main(props) {
             setAgeInput={setAgeInput}
             setHeightInput={setHeightInput}
             setActivityInput={setActivityInput}
-            caloriesInput={caloriesInput}
             setCaloriesInput={setCaloriesInput}
             getTdeeMultiplier={getTdeeMultiplier}
-            // getTableRows={getTableRows}
             checkForm={checkForm}
             storeStats={storeStats}
             buttonOn={buttonOn}

@@ -10,7 +10,6 @@ function Homepage(props) {
     setMetricModeOn,
     setGenderInput,
     setWeightInput,
-    caloriesInput,
     setCaloriesInput,
     setAgeInput,
     setHeightInput,
@@ -152,7 +151,6 @@ function Homepage(props) {
             id={"calories"}
             onChange={(e) => {
               setCaloriesInput(e.target.value);
-              console.log(caloriesInput);
               checkForm(e);
             }}
           />
