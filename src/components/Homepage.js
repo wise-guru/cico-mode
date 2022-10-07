@@ -25,7 +25,7 @@ function Homepage(props) {
 
   return (
     <div className="homepage bothCol">
-      <h1>Weight Calculator</h1>
+      <h1>Weight Predictor Calculator</h1>
 
       <div className="unitBtns">
         <input
@@ -227,28 +227,27 @@ function Homepage(props) {
             <option value={"extremely"}>Extremely Active</option>
           </select>
         </div>
-
-        <div className="seventh row">
-          {buttonOn ? (
-            <Link to="/weight-table">
-              <button
-                className="submitBtn"
-                type="button"
-                onClick={(e) => {
-                  storeStats(e);
-                }}>
-                Submit
-              </button>
-            </Link>
-          ) : (
-            <div>
-              <button className="submitBtn" type="button" disabled={true}>
-                Submit
-              </button>
-            </div>
-          )}
-        </div>
       </form>
+      <div className="seventh row">
+        {buttonOn ? (
+          <Link to="/weight-table">
+            <button
+              className="submitBtn"
+              type="button"
+              onClick={(e) => {
+                storeStats(e);
+              }}>
+              Submit
+            </button>
+          </Link>
+        ) : (
+          <div>
+            <button className="submitBtn" type="button" disabled={true}>
+              Submit
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
