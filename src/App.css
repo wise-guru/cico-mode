@@ -291,7 +291,7 @@ label {
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.9rem;
-  min-width: 400px;
+  min-width: 250px;
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -341,4 +341,37 @@ label {
   border: 2.5px solid #84A98C;
   width: 30rem;
   border-radius: 10px;
+}
+
+@media (max-width: 500px) {
+  body {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  form {
+    gap: 0.75rem;
+    align-items: center;
+  }
+  
+
+  form label {
+  width: 6rem;
+}
+
+.row {
+  display: grid;
+  align-items: center;
+}
+
+
+  .row input[type="number"], .row select {
+    /* min-width: 200px; */
+    width: 8rem;
+    max-height: 100%;
+  }
+
+  .sixth.row {
+    padding: 0.5rem 0;
+  }
 }
