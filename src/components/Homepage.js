@@ -16,7 +16,8 @@ function Homepage(props) {
     getTdeeMultiplier,
     setActivityInput,
     checkForm,
-    storeStats
+    storeStats,
+    checkNumberInput
   } = props;
 
   const [selected, setSelected] = useState("imperial");
@@ -113,26 +114,40 @@ function Homepage(props) {
           </label>
           {imperialModeOn ? (
             <input
+              min={0}
               type={"number"}
               className="secondCol"
               name={"weight"}
               id={"weight"}
               placeholder={"153"}
               onChange={(e) => {
+                checkNumberInput(e);
                 setWeightInput(e.target.value);
                 checkForm(e);
+              }}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
               }}
             />
           ) : metricModeOn ? (
             <input
+              min={0}
               type={"number"}
               className="secondCol"
               name={"weight"}
               id={"weight"}
               placeholder={"72"}
               onChange={(e) => {
+                checkNumberInput(e);
                 setWeightInput(e.target.value);
                 checkForm(e);
+              }}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
               }}
             />
           ) : (
@@ -145,13 +160,20 @@ function Homepage(props) {
             How many calories do you plan to eat in a day?
           </label>
           <input
+            min={0}
             type={"number"}
             className="secondCol"
             name={"calories"}
             id={"calories"}
             onChange={(e) => {
+              checkNumberInput(e);
               setCaloriesInput(e.target.value);
               checkForm(e);
+            }}
+            onKeyDown={(e) => {
+              if (e.key == "-") {
+                e.preventDefault();
+              }
             }}
           />
         </div>
@@ -161,13 +183,20 @@ function Homepage(props) {
             What is your age?
           </label>
           <input
+            min={0}
             type={"number"}
             className="secondCol"
             name={"age"}
             id={"age"}
             onChange={(e) => {
+              checkNumberInput(e);
               setAgeInput(e.target.value);
               checkForm(e);
+            }}
+            onKeyDown={(e) => {
+              if (e.key == "-") {
+                e.preventDefault();
+              }
             }}
           />
         </div>
@@ -184,18 +213,26 @@ function Homepage(props) {
 
           {imperialModeOn ? (
             <input
+              min={0}
               type={"number"}
               className="secondCol"
               name={"height"}
               id={"height"}
               placeholder={"70"}
               onChange={(e) => {
+                checkNumberInput(e);
                 setHeightInput(e.target.value);
                 checkForm(e);
+              }}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
               }}
             />
           ) : metricModeOn ? (
             <input
+              min={0}
               type={"number"}
               className="secondCol"
               name={"height"}
@@ -204,6 +241,11 @@ function Homepage(props) {
               onChange={(e) => {
                 setHeightInput(e.target.value);
                 checkForm(e);
+              }}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
               }}
             />
           ) : null}

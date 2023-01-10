@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-function BMICalculator() {
+function BMICalculator(props) {
+  const { checkNumberInput } = props;
   const [selected, setSelected] = useState("imperial");
   const [metricModeOn, setMetricModeOn] = useState(false);
   const [imperialModeOn, setImperialModeOn] = useState(true);
@@ -101,19 +102,31 @@ function BMICalculator() {
           </label>
           {imperialModeOn ? (
             <input
+              min={0}
               className="secondCol"
               type={"number"}
               name={"weight"}
               id={"weight"}
               placeholder={"153"}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
+              }}
             />
           ) : metricModeOn ? (
             <input
+              min={0}
               className="secondCol"
               type={"number"}
               name={"weight"}
               id={"weight"}
               placeholder={"72"}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
+              }}
             />
           ) : (
             <div>404</div>
@@ -132,19 +145,31 @@ function BMICalculator() {
 
           {imperialModeOn ? (
             <input
+              min={0}
               className="secondCol"
               type={"number"}
               name={"height"}
               id={"height"}
               placeholder={"70"}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
+              }}
             />
           ) : metricModeOn ? (
             <input
+              min={0}
               className="secondCol"
               type={"number"}
               name={"height"}
               id={"height"}
               placeholder={"183"}
+              onKeyDown={(e) => {
+                if (e.key == "-") {
+                  e.preventDefault();
+                }
+              }}
             />
           ) : null}
         </div>
@@ -157,10 +182,10 @@ function BMICalculator() {
             if (metricModeOn) {
               getBmiKilo();
               setShowBmiInfo(true);
-              console.log("kilos");
+              // console.log("kilos");
             } else if (imperialModeOn) {
               getBmiPounds();
-              console.log("pounds");
+              // console.log("pounds");
             }
           }}>
           Check
@@ -183,13 +208,5 @@ function BMICalculator() {
     </div>
   );
 }
-
-// const getBmi = await fetch(
-//     "https://body-mass-index-bmi-calculator.p.rapidapi.com/metric?weight=" +
-//       weightKg +
-//       "&height=" +
-//       heightM,
-//     { mode: "cors" }
-//   );
 
 export default BMICalculator;
