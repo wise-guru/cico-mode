@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-function BMICalculator(props) {
-  const { checkNumberInput } = props;
+function BMICalculator() {
   const [selected, setSelected] = useState("imperial");
   const [metricModeOn, setMetricModeOn] = useState(false);
   const [imperialModeOn, setImperialModeOn] = useState(true);
